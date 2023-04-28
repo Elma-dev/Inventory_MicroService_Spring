@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 
 import java.util.stream.Stream;
 
@@ -14,12 +15,14 @@ import java.util.stream.Stream;
 public class InventoryMicroServiceSpringApplication implements CommandLineRunner {
 
     private ProductRepository productRepository;
+    private RepositoryRestConfiguration repositoryRestConfiguration;
     public static void main(String[] args) {
         SpringApplication.run(InventoryMicroServiceSpringApplication.class, args);
     }
 
     @Override
     public void run(String... args) throws Exception {
+        repositoryRestConfiguration.exposeIdsFor(Product.class);
         Stream.of("Oil","Boeuf","eggs").forEach(product->{
             Product product1 = Product.builder()
                     .name(product).price(Math.random()*10).quatity((int)(Math.random()*1000)).build();
